@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          const url = new URL(entry.name);
+          if (url.pathname === '/child-module.js') {
+            console.assert(entry.initiatorType === 'script', 'expected `initatiorType` to be `script`');
+          }
+        }
+      });
+
+      observer.observe({ type: "resource", buffered: true });
+    </script>
+    <script type="module">
+      import './module.js';
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+
